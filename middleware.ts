@@ -42,13 +42,21 @@ export default async function middleware(req: NextRequest) {
   // rewrites for lab pages
   if (
     (isSubdomainMode() &&
-      hostname == `lab.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) ||
-    (!isSubdomainMode() && path.startsWith("/lab"))
+      hostname == `ai.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) ||
+    (!isSubdomainMode() && path.startsWith("/") && !path.startsWith("/ai"))
   ) {
-    const session = await getToken({ req });
+    //const session = await getToken({ req });
+	const secret = process.env.NEXTAUTH_SECRET;
+	const session = await getToken({
+		req: req,
+		secret: secret,
+		raw: true,
+	});
     if (!session && url.pathname !== labPath("/login")) {
       return NextResponse.redirect(new URL(labPath("/login"), req.url));
     } else if (session && url.pathname == labPath("/login")) {
+      return NextResponse.redirect(new URL(labPath("/"), req.url));
+    }else if (session && url.pathname == ("/")) {
       return NextResponse.redirect(new URL(labPath("/"), req.url));
     }
     return NextResponse.rewrite(

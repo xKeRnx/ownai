@@ -18,8 +18,8 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL(
     isDeployed()
-      ? `https://lab.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`
-      : "http://lab.localhost:3000",
+      ? `https://api.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`
+      : "http://api.localhost:3000",
   ),
 };
 

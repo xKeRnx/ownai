@@ -47,7 +47,6 @@ export const authOptions: NextAuthOptions = {
         ) {
           return user;
         }
-
         return null;
       },
     }),
